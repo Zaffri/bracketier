@@ -19,7 +19,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Appbar />
-        {children}
+        <section className="text-gray-600 body-font">
+          <div className="container px-5 py-12 mx-auto">
+            {children}
+          </div>
+        </section>
       </body>
     </html>
   )
