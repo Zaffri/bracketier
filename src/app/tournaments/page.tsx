@@ -1,11 +1,17 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { getTournaments } from '@/app/_data/tournament';
 import Table from "@/components/Table";
 
 export default function Tournaments() {
-  const data = [
-    { id: 1, name: 'Halloween Pocket #1', winner: '-', numOfPlayers: '16', status: 'Ongoing' },
-    { id: 2, name: 'Morriston Battle Royale 1', winner: 'Lyn', numOfPlayers: 6, status: 'Complete' },
-    { id: 3, name: 'First tourny', winner: 'Steven', numOfPlayers: 10, status: 'Complete' },
-  ];
+  const [tournaments, setTournaments] = useState([]);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    getTournaments(page)
+      .then(data => setTournaments(data))
+      .catch(e => console.error(e));
+  }, [page]);
 
   const columns = [
     { label: 'Name', key: 'name' },
@@ -17,7 +23,7 @@ export default function Tournaments() {
   return (
     <>
       <h1 className="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900 text-center">Tournaments</h1>
-      <Table columns={ columns } rows={ data } />
+      <Table columns={ columns } rows={ tournaments } />
     </>
   );
 }

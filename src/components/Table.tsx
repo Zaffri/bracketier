@@ -1,3 +1,5 @@
+'use client';
+
 type TableColumn = {
   label: string;
   key: string;
@@ -8,7 +10,6 @@ type TableRow = Record<string, any>;
 function TableHeading ({ column }: { column: TableColumn }) {
   return (
     <>
-      {/* <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Plan</th> */}
       <th className="px-4 py-3 text-center title-font tracking-wider font-medium text-white text-sm bg-sky-500">
         { column.label }
       </th>
@@ -53,6 +54,14 @@ export default function Table ({ columns, rows } : { columns: TableColumn[], row
                 <TableRow key={r.id} columns={columns} row={r} />
               );
             }) }
+
+            { rows.length === 0 && 
+              <tr>
+                <td className="px-4 py-3 text-center" colSpan={ columns.length + 1 }>
+                  No data available.
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
       </div>
