@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { getTournaments } from '@/app/_data/tournament';
+import PageTitle from "@/components/PageTitle";
 import Table from "@/components/Table";
 
 export default function Tournaments() {
@@ -22,7 +23,7 @@ export default function Tournaments() {
 
   return (
     <>
-      <h1 className="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900 text-center">Tournaments</h1>
+      <PageTitle title="Tournaments" />
       <Table columns={ columns } rows={ tournaments } />
     </>
   );

@@ -9,9 +9,9 @@ const baseHeaders = {};
 
 export default async function provider (config: providerConfig) {
   const { path, method, headers, body } = config;
-  console.log('Calling: ', `/api/${path}`);
+  console.log('Calling: ', `/api${path}`);
 
-  const response = await fetch(`/api/${path}`, {
+  const response = await fetch(`/api${path}`, {
     method,
     headers: { ...baseHeaders, ...(headers && headers) },
     body: JSON.stringify(body)
