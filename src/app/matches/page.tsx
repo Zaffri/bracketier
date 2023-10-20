@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { getMatches } from '@/app/_data/match';
+import PageTitle from "@/components/PageTitle";
 import Table from "@/components/Table";
 
 export default function Matches() {
@@ -21,7 +22,7 @@ export default function Matches() {
 
   return (
     <>
-      <h1 className="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900 text-center">Matches</h1>
+      <PageTitle title="Matches" />
       <Table columns={ columns } rows={ matches } />
     </>
   );
