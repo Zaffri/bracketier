@@ -16,10 +16,12 @@ type PageNumberProps = {
 const PageNumber = ({ active, page }: PageNumberProps) => {
   const activeClass = active === true ? 'bg-indigo-600' : 'bg-slate-400';
   return <Link
-    className={`p-2 mr-1 ${activeClass} text-white rounded-md`}
+    className={`px-2 py-1 mr-1 ${activeClass} text-white rounded-md`}
     href={{ query: { page } }}
     key={page}
-  >{page}</Link>;
+  >
+    {page}
+  </Link>;
 };
 
 export default function Pagination ({ total, page }: PaginationProps) {

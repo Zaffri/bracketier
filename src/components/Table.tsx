@@ -1,9 +1,9 @@
-type TableColumn = {
+export type TableColumn = {
   label: string;
   key: string;
 };
 
-type TableRow = Record<string, any>;
+export type TableRow = Record<string, any>;
 
 function TableHeading ({ column }: { column: TableColumn }) {
   return (
