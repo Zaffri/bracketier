@@ -16,5 +16,11 @@ export default async function provider (config: providerConfig) {
     headers: { ...baseHeaders, ...(headers && headers) },
     body: JSON.stringify(body)
   });
-  return await response.json();
+  
+  const jsonResponse = await response.json();
+
+  if (response.status < 300 && response.status >= 200) {
+    return jsonResponse;
+  }
+  throw new Error(jsonResponse);
 };
