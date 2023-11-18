@@ -5,17 +5,42 @@ export type TableColumn = {
 
 export type TableRow = Record<string, any>;
 
-function TableHeading ({ column }: { column: TableColumn }) {
+type TableHeadingProps = {
+  column: TableColumn;
+  columnIndex: number;
+  columnLength: number;
+};
+
+type TableRowProps = {
+  columns: TableColumn[];
+  row: TableRow
+};
+
+type TableProps = {
+  columns: TableColumn[];
+  rows: TableRow[];
+};
+
+const getCellBorderRadius = (columnLength: number, columnIndex: number) => {
+  if (columnIndex === 0) {
+    return ' rounded-l-lg';
+  } else if (columnIndex + 1 === columnLength) {
+    return ' rounded-r-lg';
+  }
+  return '';
+};
+
+function TableHeading ({ column, columnIndex, columnLength }: TableHeadingProps) {
   return (
     <>
-      <th className="px-4 py-3 text-center title-font tracking-wider font-medium text-white text-sm bg-sky-500">
+      <th className={`px-4 py-3 text-center title-font tracking-wider font-medium text-white text-sm bg-sky-500${getCellBorderRadius(columnLength, columnIndex)}`}>
         { column.label }
       </th>
     </>
   );
 };
 
-function TableRow ({ columns, row }: { columns: TableColumn[], row: TableRow }) {
+function TableRow ({ columns, row }: TableRowProps) {
   return (
     <tr>
       {columns && columns.map(c => {
@@ -29,7 +54,7 @@ function TableRow ({ columns, row }: { columns: TableColumn[], row: TableRow }) 
   );
 };
 
-export default function Table ({ columns, rows } : { columns: TableColumn[], rows: TableRow[] }) {
+export default function Table ({ columns, rows } : TableProps) {
   return (
     <>
       <div className="flex flex-col text-center w-full mb-8">
@@ -41,8 +66,8 @@ export default function Table ({ columns, rows } : { columns: TableColumn[], row
         <table className="table-auto w-full text-left whitespace-no-wrap">
           <thead>
             <tr>
-              { columns && columns.map(c => {
-                return <TableHeading key={c.key} column={c} />;
+              { columns && columns.map((c, index, originalArr) => {
+                return <TableHeading key={c.key} column={c} columnIndex={index} columnLength={originalArr.length} />;
               })}
             </tr>
           </thead>

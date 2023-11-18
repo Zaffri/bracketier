@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { getPageSetFromArray } from '../utils';
+import { PAGE_SIZE } from '../constants';
 
 const data = [
   { id: 1, player: 'Jane', wins: 100, losses: 2, wlratio: 50.00 },
@@ -25,7 +26,7 @@ export async function GET(req: NextRequest) {
   return new Response(JSON.stringify({
     results,
     count: data.length,
-    pageSize: 5
+    pageSize: PAGE_SIZE
   }), {
     status: 200
   });

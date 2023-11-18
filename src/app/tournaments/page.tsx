@@ -1,30 +1,24 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { getTournaments } from '@/app/_data/tournament';
 import PageTitle from "@/components/PageTitle";
-import Table from "@/components/Table";
+import DataTable from "@/components/DataTable";
+
+const COLUMNS = [
+  { label: 'Name', key: 'name' },
+  { label: 'Winner', key: 'winner' },
+  { label: 'No. of players', key: 'numOfPlayers' },
+  { label: 'Status', key: 'status' },
+];
+
+const callback = (page: number) => getTournaments(page)
+  .then(data => data)
+  .catch(e => console.error(e));;
 
 export default function Tournaments() {
-  const [tournaments, setTournaments] = useState([]);
-  const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    getTournaments(page)
-      .then(data => setTournaments(data))
-      .catch(e => console.error(e));
-  }, [page]);
-
-  const columns = [
-    { label: 'Name', key: 'name' },
-    { label: 'Winner', key: 'winner' },
-    { label: 'No. of players', key: 'numOfPlayers' },
-    { label: 'Status', key: 'status' },
-  ];
 
   return (
-    <>
+    <DataTable columns={COLUMNS} fetchDataCallback={callback}>
       <PageTitle title="Tournaments" />
-      <Table columns={ columns } rows={ tournaments } />
-    </>
+    </DataTable>
   );
 }
