@@ -33,7 +33,7 @@ export default function Pagination ({ total, page }: PaginationProps) {
 
   return (
     <div className="flex justify-center mt-6">
-      {[...Array(pages)].map((_, index) => 
+      {pages > 1 && [...Array(pages)].map((_, index) => 
         <PageNumber key={index} page={index + 1} active={page === index + 1} />
       )}
     </div>

@@ -10,11 +10,9 @@ const COLUMNS = [
   { label: 'W/L Ratio', key: 'wlratio' }
 ];
 
-const callback = (page: number) => {
-  return getPlayers(page)
-    .then(data => data)
-    .catch(e => console.error(e));
-};
+const callback = (page: number) => getPlayers(page)
+  .then(data => data)
+  .catch(e => console.error(e));
 
 export default function Home() {
   return (

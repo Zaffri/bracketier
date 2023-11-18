@@ -16,12 +16,13 @@ type DataResponse = {
 };
 
 export default function DataTable ({ children, columns, fetchDataCallback }: DataTableProps) {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [items, setItems] = useState<DataResponse['results']>([]);
   const [totalItems, setTotalitems] = useState(0);
 
   const searchParams = useSearchParams();
 
+  // TODO: add abort?
   useEffect(() => {
     fetchDataCallback(page)
       .then(({ results, count }: DataResponse) => {
