@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { updatePage } from '@/app/utils';
 import Pagination from "@/components/Pagination";
 import Table, { TableColumn } from "@/components/Table";
 
@@ -16,28 +15,33 @@ type DataResponse = {
 };
 
 export default function DataTable ({ children, columns, fetchDataCallback }: DataTableProps) {
-  const [page, setPage] = useState(1);
   const [items, setItems] = useState<DataResponse['results']>([]);
   const [totalItems, setTotalitems] = useState(0);
 
   const searchParams = useSearchParams();
+  const page = searchParams.get("page") || '1';
 
-  // TODO: add abort?
   useEffect(() => {
-    fetchDataCallback(page)
-      .then(({ results, count }: DataResponse) => {
-        updatePage(searchParams, page, setPage);
+    const controller = new AbortController();
+
+    fetchDataCallback(page, controller.signal)
+      .then((data: DataResponse) => {
+        if (!data) throw Error('No data returned', data);
+        const { results, count } = data;
+
         setItems(results);
         setTotalitems(count);
       })
       .catch((err: any) => console.error(err));
-  }, [page, fetchDataCallback, searchParams]);
+    
+    return () => controller.abort();
+  }, [page, fetchDataCallback]);
 
   return (
     <>
       {children}
       <Table columns={columns} rows={items} />
-      <Pagination total={totalItems} page={page} setPage={setPage} />
+      <Pagination total={totalItems} page={page} />
     </>
   );
 };

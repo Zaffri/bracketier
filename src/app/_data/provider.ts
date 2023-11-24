@@ -1,20 +1,22 @@
 type providerConfig = {
-  path: string,
-  method: string,
-  headers?: Record<string, any>,
-  body?: Record<string, any>
+  path: string;
+  method: string;
+  headers?: Record<string, any>;
+  body?: Record<string, any>;
+  signal: AbortSignal;
 };
 
 const baseHeaders = {};
 
 export default async function provider (config: providerConfig) {
-  const { path, method, headers, body } = config;
+  const { path, method, headers, body, signal } = config;
   console.log('Calling: ', `/api${path}`);
 
   const response = await fetch(`/api${path}`, {
     method,
     headers: { ...baseHeaders, ...(headers && headers) },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    signal
   });
   
   const jsonResponse = await response.json();

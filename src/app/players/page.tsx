@@ -10,7 +10,7 @@ const COLUMNS = [
   { label: 'W/L Ratio', key: 'wlratio' }
 ];
 
-const callback = (page: number) => getPlayers(page)
+const callback = (page: number, signal: AbortSignal) => getPlayers(page, signal)
   .then(data => data)
   .catch(e => console.error(e));
 

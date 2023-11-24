@@ -9,7 +9,7 @@ const COLUMNS = [
   { label: 'Player 2', key: 'player2' }
 ];
 
-const callback = (page: number) => getMatches(page)
+const callback = (page: number, signal: AbortSignal) => getMatches(page, signal)
   .then(data => data)
   .catch(e => console.error(e));
 
