@@ -10,7 +10,7 @@ const COLUMNS = [
   { label: 'Status', key: 'status' },
 ];
 
-const callback = (page: number) => getTournaments(page)
+const callback = (page: number, signal: AbortSignal) => getTournaments(page, signal)
   .then(data => data)
   .catch(e => console.error(e));;
 
