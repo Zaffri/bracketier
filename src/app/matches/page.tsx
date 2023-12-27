@@ -1,5 +1,5 @@
 'use client';
-import { getMatches } from '@/app/_data/match';
+import { getMatches } from '@/app/actions/match';
 import PageTitle from "@/components/PageTitle";
 import DataTable from "@/components/DataTable";
 
@@ -9,13 +9,9 @@ const COLUMNS = [
   { label: 'Player 2', key: 'player2' }
 ];
 
-const callback = (page: number, signal: AbortSignal) => getMatches(page, signal)
-  .then(data => data)
-  .catch(e => console.error(e));
-
 export default function Matches() {
   return (
-    <DataTable columns={COLUMNS} fetchDataCallback={callback}>
+    <DataTable columns={COLUMNS} serverAction={getMatches}>
       <PageTitle title="Matches" />
     </DataTable>
   );

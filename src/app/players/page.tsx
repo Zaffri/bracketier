@@ -1,5 +1,4 @@
-'use client';
-import { getPlayers } from '@/app/_data/player';
+import { getPlayers } from '@/app/actions/player';
 import DataTable from "@/components/DataTable";
 import PageTitle from "@/components/PageTitle";
 
@@ -10,13 +9,9 @@ const COLUMNS = [
   { label: 'W/L Ratio', key: 'wlratio' }
 ];
 
-const callback = (page: number, signal: AbortSignal) => getPlayers(page, signal)
-  .then(data => data)
-  .catch(e => console.error(e));
-
-export default function Home() {
+export default async function Home() {
   return (
-    <DataTable columns={COLUMNS} fetchDataCallback={callback}>
+    <DataTable columns={COLUMNS} serverAction={getPlayers}>
       <PageTitle title="Players" />
     </DataTable>
   );
