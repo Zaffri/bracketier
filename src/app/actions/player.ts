@@ -1,6 +1,7 @@
-import { NextRequest } from "next/server";
-import { getPageSetFromArray } from '../utils';
-import { PAGE_SIZE } from '../constants';
+'use server';
+
+import { getPageSetFromArray } from '../../lib/utils';
+import { PAGE_SIZE } from '../../lib/constants';
 
 const data = [
   { id: 1, player: 'Jane', wins: 100, losses: 2, wlratio: 50.00 },
@@ -17,17 +18,13 @@ const data = [
   { id: 12, player: 'Jasper', wins: 10, losses: 2, wlratio: 5.00 },
 ];
 
-export async function GET(req: NextRequest) {
-  console.log(`GET ${req.nextUrl.hostname}/api/player`);
-  console.log(req.nextUrl.searchParams);
-  const page  = req.nextUrl.searchParams.get('page');
+export async function getPlayers(page = 1) {
+  console.log(`Fetching players (page ${page})`);
   const results = getPageSetFromArray(data, page); 
 
-  return new Response(JSON.stringify({
+  return {
     results,
     count: data.length,
     pageSize: PAGE_SIZE
-  }), {
-    status: 200
-  });
+  };
 };

@@ -1,47 +1,44 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Pagination from "@/components/Pagination";
 import Table, { TableColumn } from "@/components/Table";
-
-type DataTableProps = {
-  children: React.ReactNode;
-  columns: TableColumn[];
-  fetchDataCallback: Function;
-};
 
 type DataResponse = {
   results: Record<string, any>[];
   count: number;
 };
 
-export default function DataTable ({ children, columns, fetchDataCallback }: DataTableProps) {
-  const [items, setItems] = useState<DataResponse['results']>([]);
-  const [totalItems, setTotalitems] = useState(0);
+type DataTableProps = {
+  children: React.ReactNode;
+  columns: TableColumn[];
+  serverAction: Function;
+};
 
+export default function DataTable ({ children, columns, serverAction }: DataTableProps) {
   const searchParams = useSearchParams();
-  const page = searchParams.get("page") || '1';
+  const [data, setData] = useState<DataResponse>({ results: [], count: 0 });
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
-    const controller = new AbortController();
+    const currentPage = parseInt(searchParams.get("page") || '1');
+    if (currentPage !== page) {
+      serverAction(currentPage)
+        .then((actionResults: DataResponse) => {
+          console.log('results =', actionResults);
+          setData(actionResults);
+          setPage(currentPage);
+        })
+        .catch((err: Error) => console.error(err));
+    }
+  }, [page, searchParams, serverAction]);
 
-    fetchDataCallback(page, controller.signal)
-      .then((data: DataResponse) => {
-        if (!data) throw Error('No data returned', data);
-        const { results, count } = data;
-
-        setItems(results);
-        setTotalitems(count);
-      })
-      .catch((err: any) => console.error(err));
-    
-    return () => controller.abort();
-  }, [page, fetchDataCallback]);
 
   return (
     <>
       {children}
-      <Table columns={columns} rows={items} />
-      <Pagination total={totalItems} page={page} />
+      <Table columns={columns} rows={data.results} />
+      <Pagination total={data.count} page={page} />
     </>
   );
 };

@@ -1,5 +1,4 @@
-'use client';
-import { getTournaments } from '@/app/_data/tournament';
+import { getTournaments } from '@/app/actions/tournament';
 import PageTitle from "@/components/PageTitle";
 import DataTable from "@/components/DataTable";
 
@@ -10,14 +9,9 @@ const COLUMNS = [
   { label: 'Status', key: 'status' },
 ];
 
-const callback = (page: number, signal: AbortSignal) => getTournaments(page, signal)
-  .then(data => data)
-  .catch(e => console.error(e));;
-
-export default function Tournaments() {
-
+export default async function Tournaments() {
   return (
-    <DataTable columns={COLUMNS} fetchDataCallback={callback}>
+    <DataTable columns={COLUMNS} serverAction={getTournaments}>
       <PageTitle title="Tournaments" />
     </DataTable>
   );

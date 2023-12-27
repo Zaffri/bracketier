@@ -1,11 +1,11 @@
-import { useSearchParams } from 'next/navigation';
+'use client';
 import { useEffect, useState } from "react";
 import Link from 'next/link';
-import { PAGE_SIZE } from "@/app/api/constants";
+import { PAGE_SIZE } from "@/lib/constants";
 
 type PaginationProps = {
   total: number;
-  page: string | undefined;
+  page: number;
 };
 
 type PageNumberProps = {
@@ -24,7 +24,7 @@ const PageNumber = ({ active, page }: PageNumberProps) => {
   </Link>;
 };
 
-export default function Pagination ({ total, page = '1' }: PaginationProps) {
+export default function Pagination ({ total, page = 1 }: PaginationProps) {
   const [pages, setPages] = useState(1);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function Pagination ({ total, page = '1' }: PaginationProps) {
   return (
     <div className="flex justify-center mt-6">
       {pages > 1 && [...Array(pages)].map((_, index) => 
-        <PageNumber key={index} page={index + 1} active={parseInt(page) === index + 1} />
+        <PageNumber key={index} page={index + 1} active={page === index + 1} />
       )}
     </div>
   );
