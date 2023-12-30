@@ -33,7 +33,7 @@ export default function Appbar () {
         <nav className="flex flex-wrap text-base justify-items-end">
           {links && links.map<ReactNode>((link) => {
             return (
-              <Link href={link.path} key={link.text} className=''>
+              <Link href={link.path} key={link.text}>
                 <div className={getLinkClasses(link.path)}>
                   { link.text }
                 </div>

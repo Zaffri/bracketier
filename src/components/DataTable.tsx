@@ -36,9 +36,11 @@ export default function DataTable ({ children, columns, serverAction }: DataTabl
 
   return (
     <>
-      {children}
-      <Table columns={columns} rows={data.results} />
-      <Pagination total={data.count} page={page} />
+      <div className="lg:w-2/3 w-full mx-auto overflow-auto">
+        {children}
+        <Table columns={columns} rows={data.results} />
+        <Pagination total={data.count} page={page} />
+      </div>
     </>
   );
 };
