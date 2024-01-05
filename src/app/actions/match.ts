@@ -1,7 +1,8 @@
 'use server';
 
-import { getPageSetFromArray } from '../../lib/utils';
-import { PAGE_SIZE } from '../../lib/constants';
+import { getPageSetFromArray } from '@/lib/utils';
+import { PAGE_SIZE } from '@/lib/constants';
+import NextLogger from '@/lib/next-logger';
 
 const data = [
   { id: 1, status: 'Ongoing', player1: 'Jane', player2: 'Steven', winner: undefined },
@@ -11,7 +12,7 @@ const data = [
 ];
 
 export async function getMatches(page = 1) {
-  console.log(`Fetching matches (page ${page})`);
+  NextLogger.info(`Fetching matches (page ${page})`);
   const results = getPageSetFromArray(data, page); 
 
   return {
