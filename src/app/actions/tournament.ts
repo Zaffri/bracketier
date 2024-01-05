@@ -1,7 +1,8 @@
 'use server';
 
-import { getPageSetFromArray } from '../../lib/utils';
-import { PAGE_SIZE } from '../../lib/constants';
+import { getPageSetFromArray } from '@/lib/utils';
+import { PAGE_SIZE } from '@/lib/constants';
+import NextLogger from '@/lib/next-logger';
 
 const data = [
   { id: 1, name: 'Halloween #1', winner: '-', numOfPlayers: '16', status: 'Ongoing' },
@@ -10,7 +11,7 @@ const data = [
 ];
 
 export async function getTournaments(page = 1) {
-  console.log(`Fetching tournaments (page ${page})`);
+  NextLogger.info(`Fetching tournaments (page ${page})`);
   const results = getPageSetFromArray(data, page); 
 
   return {

@@ -1,7 +1,8 @@
 'use server';
 
-import { getPageSetFromArray } from '../../lib/utils';
-import { PAGE_SIZE } from '../../lib/constants';
+import { getPageSetFromArray } from '@/lib/utils';
+import { PAGE_SIZE } from '@/lib/constants';
+import NextLogger from '@/lib/next-logger';
 
 const data = [
   { id: 1, player: 'Jane', wins: 100, losses: 2, wlratio: 50.00 },
@@ -19,7 +20,8 @@ const data = [
 ];
 
 export async function getPlayers(page = 1) {
-  console.log(`Fetching players (page ${page})`);
+  NextLogger.info(`Fetching players (page ${page})`);
+
   const results = getPageSetFromArray(data, page); 
 
   return {

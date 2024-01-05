@@ -15,7 +15,6 @@ const getPageSetFromArray = (data: Record<string, any>[], page: string | number 
   const pageNum = (typeof(page) === 'string' ? parseInt(page) : page);
   const getPosition = (page: number, size: number) => (page * size) - pageSize;
   const start = pageNum === null || pageNum <= 1 || isNaN(pageNum) ? 0 : getPosition(pageNum, pageSize);
-  console.log(start, pageSize + pageSize);
   return data.slice(start, start + pageSize);
 };
 
